@@ -14,12 +14,12 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name ="name")
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "username")
+    @Column(nullable = false)
     private String username;
 
-    @Column(name = "password")
+    @Column(nullable = false)
     private String password;
 }
