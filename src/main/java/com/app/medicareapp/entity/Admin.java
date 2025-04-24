@@ -3,6 +3,7 @@ package com.app.medicareapp.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "admin")
 public class Admin {
 
     @Id
