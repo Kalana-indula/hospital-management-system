@@ -40,7 +40,14 @@ public class AdminController {
     @GetMapping("/admins/{id}")
     public ResponseEntity<?> findAdminById(@PathVariable Long id){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.findAdminById(id));
+
+            Admin existingAdmin= adminService.findAdminById(id);
+
+            if(existingAdmin!=null){
+                return ResponseEntity.status(HttpStatus.OK).body(existingAdmin);
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No admin found");
+            }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -49,7 +56,13 @@ public class AdminController {
     @PutMapping("/admins/{id}")
     public ResponseEntity<?> updateAdmin(@PathVariable Long id,@RequestBody AdminUpdateDto adminUpdateDto){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.updateAdmin(id,adminUpdateDto));
+            Admin updatedAdmin= adminService.updateAdmin(id,adminUpdateDto);
+
+            if(updatedAdmin!=null){
+                return ResponseEntity.status(HttpStatus.OK).body(updatedAdmin);
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin not found");
+            }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -58,14 +71,11 @@ public class AdminController {
     @DeleteMapping("/admins/{id}")
     public ResponseEntity<?> deleteAdmin(@PathVariable Long id){
         try {
-            String responseMessage=null;
-
             if(adminService.deleteAdmin(id)){
-                responseMessage="Admin deleted successfully";
+                return ResponseEntity.status(HttpStatus.OK).body("Admin deleted successfully");
             }else{
-                responseMessage="Admin not found";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin not found");
             }
-            return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
