@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class AdminController {
 
@@ -31,7 +34,12 @@ public class AdminController {
     @GetMapping("/admins")
     public ResponseEntity<?> findAllAdmin(){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.getAllAdmins());
+            List<Admin> allAdmins=adminService.getAllAdmins();
+
+            if(allAdmins==null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No admins found");
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(allAdmins);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
