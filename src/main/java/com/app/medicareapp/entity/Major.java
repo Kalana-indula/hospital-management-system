@@ -1,6 +1,9 @@
 package com.app.medicareapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "major")
@@ -13,6 +16,11 @@ public class Major {
 
     @Column(name = "name")
     private String name;
+
+    //To avoid circular dependency error
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "major",cascade = CascadeType.ALL)
+    private List<Doctor> doctors;
 
     public String getName() {
         return name;
@@ -28,5 +36,13 @@ public class Major {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
     }
 }
