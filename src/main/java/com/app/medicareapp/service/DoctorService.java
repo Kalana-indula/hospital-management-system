@@ -12,4 +12,8 @@ public interface DoctorService {
     Doctor addDoctor(DoctorDto doctorDto);
 
     List<Doctor> getAllDoctors();
+
+    Doctor findDoctorById(Long id);
+
+    Boolean deleteDoctor(Long id);
 }
